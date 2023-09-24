@@ -1,0 +1,116 @@
+function equal_vec(v1, v2) {
+    if ((is_null(v1) && !is_null(v2)) || (!is_null(v1) && is_null(v2))) {
+        return false;
+    }
+    else {
+        if(is_null(v1) && is_null(v2)) {
+            return true;
+        }
+        else if (head(v1) === head(v2)) {
+            return equal_vec(tail(v1), tail(v2));
+        }
+        else {
+            return equal_vec(tail(v1), v2);
+        }
+    }
+}
+function dot_product(x, y) {
+    function helper(x, y, sum) {
+        return is_null(x) || is_null(y) ? sum :
+        helper(tail(x), tail(y), sum + head(x) * head(y));
+    }
+    return helper(x, y, 0);
+}
+
+
+
+function euclid(x, y) {
+    function helper(x, y, sum) {
+        return is_null(x) || is_null(y) ? math_sqrt(sum) :
+        helper(tail(x), tail(y), sum + ((head(y)-head(x)) 
+        * (head(y)-head(x))));
+    }
+    return helper(x,y, 0);
+}
+function insert(x, xs, cmp) {
+return is_null(xs)
+? list(x)
+: cmp(x, head(xs))
+? pair(x, xs)
+: pair(head(xs), insert(x, tail(xs), cmp));
+}
+
+function insert_sort(xs, cmp) {
+    return accumulate((x, y) => insert(x, y, cmp), null, xs);
+}
+
+function sort_pairs_by_sum(xs) {
+    return insert_sort(xs, (x, y) => head(x) + tail(x) <= head(y) + tail(y));
+}
+
+
+
+
+function sort_pairs(PL) {
+const S = insert_sort(PL, (x, y) => tail(x) >= tail(y));
+return insert_sort(S, (x, y) => head(x) <= head(y));
+}
+
+
+
+function filter_by_pos(xs, pos_list) {
+    function select(ys, curr_pos, ps) {
+        return is_null(ps) ? null
+            : curr_pos < head(ps) 
+            ? select(tail(ys), curr_pos + 1, ps)
+            : pair(head(ys), select(tail(ys), curr_pos + 1, tail(ps)));
+    }
+    return select(xs, 0, pos_list);
+}
+const L = list(10, 11, 12, 13, 14, 15, 16, 17, 18, 19);
+filter_by_pos(L, list());
+
+
+
+
+function diff(a, b) {
+    if (is_null(a)) {
+        return null;
+    }
+    else if (is_null(b)) {
+        return a;
+    }
+    else if (head(a) === head(b)) {
+        return diff(tail(a), tail(b));
+    }
+    else if (head(a) < head(b)) {
+        return pair(head(a), diff(tail(a), b));
+    }
+    else {
+        return pair(head(a), diff(tail(a), tail(b)));
+    }
+}
+diff(list(2,4,5,6,9,10,11), list(4,6,7,10,11));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
